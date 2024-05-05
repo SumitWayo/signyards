@@ -73,7 +73,7 @@ const Header = () => {
               <Link href="/">
                 <img
                   className="-m-1.5 p-1.5 h-8 w-auto"
-                  src="/assets/logo.jpg"
+                  src="/assets/logo2.jpg"
                   alt="Company Logo"
                 />
               </Link>
