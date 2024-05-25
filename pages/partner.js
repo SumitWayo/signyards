@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import CustomSignageForm from "./CustomSignageForm";
+import CustomSignageForm from "../components/CustomSignageForm";
 const status = [
   { name: "Offices worldwide", value: "12" },
-  { name: "Full-time colleagues", value: "300+"},
+  { name: "Full-time colleagues", value: "300+" },
   { name: "Hours per week", value: "40" },
   { name: "Paid time off", value: "Unlimited" },
 ];
 const links = [{ name: "Become a Partner", href: "#" }];
 
-const Work = () => {
+const partner = () => {
   const [showForm, setShowForm] = useState(true);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -92,9 +92,9 @@ const Work = () => {
         </div>
         <div className="mx-auto max-w-2xl py-16">
           {showForm && <CustomSignageForm onSubmit={handleFormSubmit} />}
-          {!showForm && !isPhoneVerified && (
+          {/* {!showForm && !isPhoneVerified && (
             <PhoneVerification onSuccess={handlePhoneVerificationSuccess} />
-          )}
+          )} */}
           {formSubmitted && (
             <div className="mt-6 text-lg text-indigo-600">
               Thank you for showing interest. Our customer executive will
@@ -107,4 +107,4 @@ const Work = () => {
   );
 };
 
-export default Work;
+export default partner;

@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDROJgk8gZRHcY9QqZcw-Yk1GctJLU_yPc",
-  authDomain: "signyard-b342c.firebaseapp.com",
-  projectId: "signyard-b342c",
-  storageBucket: "signyard-b342c.appspot.com",
-  messagingSenderId: "176659539973",
-  appId: "1:176659539973:web:ff2d24ac0c3314d93a546c",
-  measurementId: "G-M3XQFJPTRV",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: "G-8RQW24V58H",
 };
 
 const app = initializeApp(firebaseConfig);

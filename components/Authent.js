@@ -1,14 +1,15 @@
-import { useState } from "react";
-import { auth } from "../components/firebase.config";
+import React, { useState } from "react";
+import { auth } from "./firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
 
-const Authent = () => {
+const Authent = ({ onAuthComplete, handleClose }) => {
   const [otp, setOtp] = useState("");
   const [ph, setPh] = useState("");
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState("");
 
   function onCaptchVerify() {
     if (!window.recaptchaVerifier) {
@@ -19,7 +20,7 @@ const Authent = () => {
           size: "invisible",
           callback: () => {
             console.log("Recaptcha resolved..");
-            onSignup(); // Call your signup function here
+            onSignup();
           },
         }
       );
@@ -62,6 +63,9 @@ const Authent = () => {
         console.log(res);
         setUser(res.user);
         setLoading(false);
+        const token = await res.user.getIdToken();
+        localStorage.setItem("accessToken", token);
+        onAuthComplete(token);
       })
       .catch((err) => {
         console.log(err);
@@ -70,26 +74,41 @@ const Authent = () => {
   }
 
   return (
-    <section
-      id="authenticate"
-      className=" bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] 
-    flex items-center justify-center h-screen"
-    >
-      <div>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
+      <div className="relative bg-white p-6 rounded-lg shadow-lg w-80">
+        <button
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+          onClick={handleClose}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            className="h-6 w-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
         <Toaster toastOptions={{ duration: 4000 }} />
         <div id="recaptcha-container"></div>
         {user ? (
-          <h2 className="text-center text-white font-medium text-2xl">
-            👍Login Success
+          <h2 className="text-center text-gray-800 font-medium text-2xl">
+            👍 Login Success
           </h2>
         ) : (
-          <div className="w-80 flex flex-col gap-4 rounded-lg p-4">
-            <h1 className="text-center leading-normal text-white font-medium text-3xl mb-6">
+          <div className="flex flex-col gap-4">
+            <h1 className="text-center leading-normal text-gray-800 font-medium text-3xl mb-6">
               Welcome to <br /> SIGNYARD.COM
             </h1>
             {showOTP ? (
               <>
-                <div className="bg-white text-emerald-500 w-fit mx-auto p-4 rounded-full">
+                <div className="bg-emerald-500 text-white w-fit mx-auto p-4 rounded-full">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -107,7 +126,7 @@ const Authent = () => {
                 </div>
                 <label
                   htmlFor="otp"
-                  className="font-bold text-xl text-white text-center"
+                  className="font-bold text-xl text-gray-800 text-center"
                 >
                   Enter your OTP
                 </label>
@@ -119,7 +138,7 @@ const Authent = () => {
                 />
                 <button
                   onClick={onOTPVerify}
-                  className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
+                  className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text -white rounded"
                 >
                   {loading && (
                     <svg
@@ -142,7 +161,7 @@ const Authent = () => {
               </>
             ) : (
               <>
-                <div className="bg-white text-emerald-500 w-fit mx-auto p-4 rounded-full">
+                <div className="bg-emerald-500 text-white w-fit mx-auto p-4 rounded-full">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -159,8 +178,8 @@ const Authent = () => {
                   </svg>
                 </div>
                 <label
-                  htmlFor=""
-                  className="font-bold text-xl text-white text-center"
+                  htmlFor="phone"
+                  className="font-bold text-xl text-gray-800 text-center"
                 >
                   Verify your phone number
                 </label>
@@ -171,7 +190,10 @@ const Authent = () => {
                   className="border border-gray-400 rounded px-3 py-2"
                 />
                 <button
-                  onClick={onSignupButtonClick} // Update the onClick handler
+                  onClick={() => {
+                    handleClose(); // Close the section when button is clicked
+                    onSignupButtonClick(); // Trigger signup button click
+                  }}
                   className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
                 >
                   {loading && (
@@ -197,7 +219,7 @@ const Authent = () => {
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -1,9 +1,10 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useCart } from "../pages/context/Cartcontext";
 import product from "../public/data/product";
 import Link from "next/link";
 
-const Products = () => {
+const ProductScreen = () => {
   const { cartItems, addToCart } = useCart();
   const router = useRouter();
   console.log(cartItems);
@@ -18,28 +19,13 @@ const Products = () => {
     }
   };
 
-  const handleProductRedirect = (productId) => {
-    router.push(`/products/${productId}`);
-  };
-
-  const handleProductScreen = (product) => {
-    // Add logic for handling more button click
-    router.push("/productScreen");
-  };
-
   return (
     <div id="products">
       <div className="relative bg-gray-800 sm:w-[calc(100%)]">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-24 lg:px-8">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8">
-            <button
-              onClick={() => handleProductScreen()}
-              className="absolute left-4 top-2 bg-transparent text-white focus:outline-none"
-            >
-              More...
-            </button>
             {product.map((product) => (
-              <div key={product.id} className="group block relative">
+              <div key={product.id} className="group block">
                 <div className="aspect-w-1 aspect-h-1 sm:aspect-h-8 sm:aspect-w-7">
                   <Link legacyBehavior href={`/products/${product.id}`}>
                     <a>
@@ -50,23 +36,6 @@ const Products = () => {
                       />
                     </a>
                   </Link>
-                  <div className="absolute top-2 right-2">
-                    <button
-                      onClick={() => handleProductRedirect(product.id)}
-                      className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    >
-                      View
-                    </button>
-                    <button
-                      onClick={() => handleFavoriteClick(product)}
-                      className="ml-2 bg-transparent focus:outline-none"
-                    >
-                      {/* <FontAwesomeIcon
-                        icon={faHeart}
-                        className="text-red-500 cursor-pointer"
-                      /> */}
-                    </button>
-                  </div>
                 </div>
                 <h3 className="mt-4 text-sm text-gray-100">{product.name}</h3>
                 <p className="mt-1 text-lg font-medium text-gray-400">
@@ -89,4 +58,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default ProductScreen;

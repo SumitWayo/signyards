@@ -1,3 +1,4 @@
+import React, { useRef, useState, useEffect } from "react";
 import Trend from "../components/Trend";
 import Products from "../components/Products";
 import Service from "../components/Service";
@@ -8,14 +9,34 @@ import Marketplace from "../components/Marketplace";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
-import Auth from "@/components/Authent";
-import Authent from "@/components/Authent";
+import Authent from "../components/Authent";
 
 export default function Main() {
+  const authRef = useRef(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("accessToken");
+      console.log("token", token);
+      if (token) {
+        setIsAuthenticated(true);
+      }
+    }
+  }, []);
+
+  const handleAuthComplete = (accessToken) => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("accessToken", accessToken);
+      setIsAuthenticated(true);
+    }
+  };
+
   return (
     <div>
       <Header />
-      <HeroSection />
+      <HeroSection isAuthenticated={isAuthenticated} authRef={authRef} />
+      {/* <HeroSection /> */}
       <Trend />
       <Products />
       <Service />
@@ -23,6 +44,9 @@ export default function Main() {
       <Ceo />
       <Discount />
       <Marketplace />
+      {/* <div ref={authRef}>
+        <Authent onAuthComplete={handleAuthComplete} />
+      </div> */}
       <Authent />
       <Footer />
     </div>
