@@ -2,6 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog } from "@headlessui/react";
+import { useRouter } from "next/router";
 
 const navigation = [
   // { name: "Product", href: "#products" },
@@ -13,6 +14,13 @@ const navigation = [
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showAuthenticate, setShowAuthenticate] = useState(false);
+  const router = useRouter();
+
+  const toggleAuthenticate = () => {
+    router.push("/Authent");
+  };
+
   return (
     <div>
       <header className="absolute inset-x-0 top-0 z-50">
@@ -50,12 +58,12 @@ const Header = () => {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link
-              href="#authenticate"
-              className="text-sm font-semibold leading-6 text-gray-400"
+            <button
+              onClick={toggleAuthenticate}
+              className="text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
             >
               Log in <span aria-hidden="true">&rarr;</span>
-            </Link>
+            </button>
           </div>
         </nav>
         <Dialog
@@ -99,18 +107,28 @@ const Header = () => {
                   ))}
                 </div>
                 <div className="py-6">
-                  <Link
-                    href="#authenticate"
+                  <button
+                    onClick={toggleAuthenticate}
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-400 hover:bg-gray-300"
                   >
                     Log in
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
           </Dialog.Panel>
         </Dialog>
       </header>
+
+      {/* Authentication Section */}
+      {showAuthenticate && (
+        <div
+          id="authenticate"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"
+        >
+          {/* Your authentication component goes here */}
+        </div>
+      )}
     </div>
   );
 };

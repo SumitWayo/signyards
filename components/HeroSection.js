@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import CustomSignageForm from "./CustomSignageForm";
-import Authent from "./Authent";
+import Authent from "../pages/Authent";
 
 const HeroSection = ({ isAuthenticated, onAuthComplete }) => {
   const [showForm, setShowForm] = useState(false);
