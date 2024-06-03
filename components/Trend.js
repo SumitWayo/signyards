@@ -1,9 +1,21 @@
 import React from "react";
 const stats = [
-  { id: 1, name: "Present in  pincodes in Delhi NCR", value: "200+" },
-  { id: 2, name: "Order Complete", value: "800+" },
-  { id: 3, name: "Bussiness Partners", value: "14" },
-  { id: 4, name: "Total Revenue", value: "10 Crore" }, // New product
+  {
+    id: 1,
+    name: "SKUs of Products & Services across different categories on our Marketplace.",
+    value: "50+",
+  },
+  {
+    id: 2,
+    name: "Sellers or Seller partners are registered on signyards across categories",
+    value: "20+",
+  },
+  { id: 3, name: "Registers user or Buyers or clients.", value: "50+" },
+  {
+    id: 4,
+    name: "Turnkey Signages & Advertising Projects Completed or delivered for different clients across India.",
+    value: "50+",
+  }, // New product
 ];
 const Trend = () => {
   return (
@@ -15,8 +27,10 @@ const Trend = () => {
               key={stat.id}
               className="mx-auto flex max-w-xs flex-col gap-y-4"
             >
-              <dt className="text-base leading-7 text-gray-600">{stat.name}</dt>
-              <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+              <dt className="text-base leading-7 font-semibold text-gray-800">
+                {stat.name}
+              </dt>
+              <dd className="order-first text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
                 {stat.value}
               </dd>
             </div>,

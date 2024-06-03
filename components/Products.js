@@ -1,12 +1,14 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useCart } from "../pages/context/Cartcontext";
-import product from "../public/data/product";
+import productData from "../public/data/product";
 import Link from "next/link";
 
 const Products = () => {
   const { cartItems, addToCart } = useCart();
   const router = useRouter();
-  console.log(cartItems);
+  const [filter, setFilter] = useState("all"); // State for filtering
+  const [showAllProducts, setShowAllProducts] = useState(false); // State to track whether to show all products
 
   const handleButtonClick = (product) => {
     const isInCart = cartItems.find((item) => item.id === product.id);
@@ -22,23 +24,39 @@ const Products = () => {
     router.push(`/products/${productId}`);
   };
 
-  const handleProductScreen = (product) => {
-    // Add logic for handling more button click
+  const handleProductScreen = () => {
     router.push("/productScreen");
   };
+
+  // Filter products based on the selected filter
+  const filteredProducts = productData.filter((product) => {
+    if (filter === "services") return product.price === 0;
+    if (filter === "products") return product.price > 0;
+    return true; // If 'all', return all products
+  });
+
+  // Displayed products based on the state and filter, limited to 8 products
+  const displayedProducts = showAllProducts
+    ? filteredProducts
+    : filteredProducts.slice(0, 8);
 
   return (
     <div id="products">
       <div className="relative bg-gray-800 sm:w-[calc(100%)]">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-24 lg:px-8">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8">
-            <button
-              onClick={() => handleProductScreen()}
-              className="absolute left-4 top-2 bg-transparent text-white focus:outline-none"
+          <div className="flex justify-between mb-4">
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              More...
-            </button>
-            {product.map((product) => (
+              <option value="all">All</option>
+              <option value="services">Services</option>
+              <option value="products">Products</option>
+            </select>
+          </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8">
+            {displayedProducts.map((product) => (
               <div key={product.id} className="group block relative">
                 <div className="aspect-w-1 aspect-h-1 sm:aspect-h-8 sm:aspect-w-7">
                   <Link legacyBehavior href={`/products/${product.id}`}>
@@ -57,15 +75,6 @@ const Products = () => {
                     >
                       View
                     </button>
-                    <button
-                      onClick={() => handleFavoriteClick(product)}
-                      className="ml-2 bg-transparent focus:outline-none"
-                    >
-                      {/* <FontAwesomeIcon
-                        icon={faHeart}
-                        className="text-red-500 cursor-pointer"
-                      /> */}
-                    </button>
                   </div>
                 </div>
                 <h3 className="mt-4 text-sm text-gray-100">{product.name}</h3>
@@ -83,6 +92,16 @@ const Products = () => {
               </div>
             ))}
           </div>
+          {!showAllProducts && filteredProducts.length > 8 && (
+            <div className="text-center mt-6">
+              <button
+                onClick={handleProductScreen}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                More....
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

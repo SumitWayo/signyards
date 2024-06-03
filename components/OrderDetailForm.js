@@ -10,20 +10,19 @@ const OrderDetailForm = ({ onSubmit }) => {
     landmark: "",
     state: "",
     phone: "",
-    gstNumber: "", // Add GST number to the formData state
+    gstNumber: "",
   });
   const [errors, setErrors] = useState({});
-  const [orderData, setOrderData] = useState(null); // State to store order data
+  const [orderData, setOrderData] = useState(null);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: null })); // Clear errors when the user types
+    setErrors((prev) => ({ ...prev, [name]: null }));
   };
 
   const validateForm = () => {
     let newErrors = {};
-    // Basic validation: Check required fields
     ["name", "addressLine1", "city", "state", "phone", "pincode"].forEach(
       (field) => {
         if (!formData[field]) {
@@ -34,7 +33,6 @@ const OrderDetailForm = ({ onSubmit }) => {
       }
     );
 
-    // Validate pincode and phone for exact length and numeric value
     if (
       formData.pincode &&
       (formData.pincode.length !== 6 || isNaN(Number(formData.pincode)))
@@ -48,7 +46,6 @@ const OrderDetailForm = ({ onSubmit }) => {
       newErrors.phone = "Phone number must be exactly 10 digits";
     }
 
-    // Validate GST number format (assuming Indian GST format for example purposes)
     const gstRegex =
       /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}[Z]{1}[A-Z0-9]{1}$/;
     if (formData.gstNumber && !gstRegex.test(formData.gstNumber)) {
@@ -62,7 +59,6 @@ const OrderDetailForm = ({ onSubmit }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
-      // Assuming onSubmit returns the complete order data
       const orderData = await onSubmit(formData);
       setOrderData(orderData);
     }
@@ -80,7 +76,7 @@ const OrderDetailForm = ({ onSubmit }) => {
           "pincode",
           "state",
           "phone",
-          "gstNumber", // Include gstNumber in the fields to render
+          "gstNumber",
         ].map((field) => (
           <div key={field} className="w-full mb-4">
             <input
@@ -122,7 +118,6 @@ const OrderDetailForm = ({ onSubmit }) => {
           </p>
           <p>Phone: {orderData.phone}</p>
           {orderData.gstNumber && <p>GST Number: {orderData.gstNumber}</p>}
-          {/* Display other form information here if needed */}
         </div>
       )}
     </div>

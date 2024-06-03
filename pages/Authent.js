@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { auth } from "../components/firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
@@ -11,6 +12,7 @@ const Authent = ({ onAuthComplete, handleClose }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
   const [alreadyLoggedIn, setAlreadyLoggedIn] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -77,6 +79,9 @@ const Authent = ({ onAuthComplete, handleClose }) => {
         const token = await res.user.getIdToken();
         localStorage.setItem("accessToken", token); // Save the access token to local storage
         onAuthComplete(token); // Pass the token to the parent component
+        setTimeout(() => {
+          router.back(); // Navigate back to the previous screen after 3 seconds
+        }, 3000);
       })
       .catch((err) => {
         console.log(err);

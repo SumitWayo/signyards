@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
 import products from "../../public/data/product";
 import { useCart } from "../../pages/context/Cartcontext";
-import Link from "next/link";
-import Products from "@/components/Products";
+import Products from "../../components/Products";
 
 const ProductDetail = () => {
   const router = useRouter();
@@ -15,6 +14,7 @@ const ProductDetail = () => {
       router.push("/cart");
     } else {
       addToCart(product.id);
+
       console.log(`Product with ID ${product.id} added to cart`);
     }
   };

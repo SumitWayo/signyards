@@ -1,15 +1,27 @@
 import { useState } from "react";
 import { useCart } from "./context/Cartcontext";
 import products from "../public/data/product";
-import Modal from "../components/Model";
+import Modal from "../components/Modal";
 import OrderDetailForm from "../components/OrderDetailForm";
 
 const OrderSummary = ({ orderData, formData }) => {
+  console.log("--", orderData);
   return (
     <div>
       <h2>Order Summary</h2>
-      <p>Quantity: {formData.quantity}</p>
-      {/* Display form information */}
+      {orderData.map((item, index) => (
+        <div key={index}>
+          <img
+            src={item.product.imageSrc}
+            alt={item.product.imageAlt || "Product Image"}
+            className="w-20 h-20 object-cover rounded-md"
+          />
+          <p>
+            {item.product.name}: Quantity-{item.quantity}: price-
+            {item.product.price}: Total-{item.quantity * item.product.price}
+          </p>
+        </div>
+      ))}
       <h3>Customer Information</h3>
       <p>Name: {formData.name}</p>
       <p>
@@ -20,44 +32,83 @@ const OrderSummary = ({ orderData, formData }) => {
       <p>Pincode: {formData.pincode}</p>
       <p>Phone: {formData.phone}</p>
       <p>GST Number: {formData.gstNumber}</p>
-      {/* Add other form fields as needed */}
     </div>
   );
 };
 
 const Cart = () => {
-  const { cartItems, increaseQuantity, decreaseQuantity } = useCart();
-  const [showModal, setShowModal] = useState(false); // State to control modal visibility
-  const [orderData, setOrderData] = useState(null); // State to store order details
-  const [formData, setFormData] = useState(null); // State to store form data
+  const {
+    cartItems,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromCart,
+    clearCart,
+  } = useCart();
+  const [showModal, setShowModal] = useState(false);
+  const [orderData, setOrderData] = useState(null);
+  const [formData, setFormData] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Calculate the total value of the cart
   const totalValue = cartItems.reduce((acc, item) => {
     const product = products.find((p) => p.id === item.id);
-    return acc + (product ? product.price * item.quantity : 0);
+    return acc + (product ? Number(product.price) * item.quantity : 0);
   }, 0);
 
-  // Function to handle modal visibility
   const handleBuyClick = () => {
     setShowModal(true);
   };
 
-  // Function to handle form submission
   const handleSubmitOrder = async (formData) => {
+    setIsSubmitting(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      // Store form data and order details in component state
-      setFormData(formData);
       const orderProducts = cartItems.map((item) => {
         const product = products.find((p) => p.id === item.id);
         return {
-          product: product, // or shorthand: product,
+          product: product,
           quantity: item.quantity,
         };
       });
       setOrderData(orderProducts);
+
+      const response = await fetch("https://signyards.in/getOrder.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          formData,
+          orderData: orderProducts,
+        }),
+      });
+
+      const text = await response.text(); // Get raw response text
+
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${text}`);
+      }
+
+      let result;
+      try {
+        result = JSON.parse(text); // Attempt to parse JSON if response is not empty
+      } catch (error) {
+        if (text) {
+          throw new Error(`Error parsing JSON response: ${error.message}`);
+        } else {
+          result = {}; // Set to empty object if response body is empty
+        }
+      }
+
+      console.log("Order submitted successfully:", result);
+
+      // Clear the cart upon successful order submission
+      clearCart();
+
+      // Set formData to display the summary
+      setFormData(formData);
     } catch (error) {
       console.error("Error submitting order:", error.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -81,7 +132,7 @@ const Cart = () => {
                 </div>
               );
             }
-            const totalPrice = product.price * item.quantity;
+            const totalPrice = Number(product.price) * item.quantity;
             return (
               <div
                 key={item.id}
@@ -109,6 +160,12 @@ const Cart = () => {
                       >
                         +
                       </button>
+                      <button
+                        onClick={() => removeFromCart(item.id)}
+                        className="px-2 py-1 border rounded text-red-500"
+                      >
+                        Delete
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -127,7 +184,7 @@ const Cart = () => {
               <h2 className="text-lg font-bold">Total: ₹{totalValue}</h2>
             </div>
             <button
-              onClick={handleBuyClick} // Open modal when Buy button is clicked
+              onClick={handleBuyClick}
               className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md"
             >
               Buy
@@ -144,6 +201,7 @@ const Cart = () => {
           )}
         </Modal>
       )}
+      {isSubmitting && <p>Submitting order...</p>}
     </div>
   );
 };

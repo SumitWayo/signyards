@@ -9,7 +9,7 @@ import Marketplace from "../components/Marketplace";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
-import Authent from "../pages/Authent";
+import Extra from "@/components/Extra";
 
 export default function Main() {
   const authRef = useRef(null);
@@ -36,17 +36,13 @@ export default function Main() {
     <div>
       <Header />
       <HeroSection isAuthenticated={isAuthenticated} authRef={authRef} />
-      {/* <HeroSection /> */}
       <Trend />
       <Products />
-      <Service />
-      <Work />
+      <Marketplace />
+
+      {/* <Service /> */}
       <Ceo />
       <Discount />
-      <Marketplace />
-      {/* <div ref={authRef}>
-        <Authent onAuthComplete={handleAuthComplete} />
-      </div> */}
       <Footer />
     </div>
   );

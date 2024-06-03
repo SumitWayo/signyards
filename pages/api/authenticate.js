@@ -13,12 +13,11 @@ export default async function handler(req, res) {
   try {
     const userCredential = await signInWithCustomToken(auth, token);
     const user = userCredential.user;
-    // Set cookie example (make sure to secure properly)
-    res.setHeader(
-      "Set-Cookie",
-      `token=${user.za}; Path=/; HttpOnly; Secure; SameSite=Lax`
-    );
-    res.status(200).json({ success: true });
+
+    // Here, you might generate a session token or JWT token and send it back to the client
+    // Or you can set a different authentication mechanism based on your application's requirements
+
+    res.status(200).json({ success: true, user: user });
   } catch (error) {
     console.error("Firebase authentication error:", error);
     res.status(500).json({ error: "Firebase authentication failed" });

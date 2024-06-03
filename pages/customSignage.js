@@ -1,11 +1,13 @@
-import React, { useState, useRef } from "react";
+"use client";
+
+import React, { useState } from "react";
 import {
   ArrowPathIcon,
   CloudArrowUpIcon,
   FingerPrintIcon,
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
-import CustomSignageForm from "@/components/CustomSignageForm";
+import CustomSignageForm from "../components/CustomSignageForm";
 
 const features = [
   {
@@ -36,14 +38,13 @@ const features = [
 
 const CustomSignage = () => {
   const [showForm, setShowForm] = useState(true);
-  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const type = "custom signyard";
 
   const handleFormSubmit = (formData) => {
     console.log("Form data:", formData);
-    setFormSubmitted(true); // Indicate submission was successful
-    setShowForm(false); // Hide the form after submission
-    // Further processing can be done here
+    setFormSubmitted(true);
+    setShowForm(false);
   };
 
   return (
@@ -51,7 +52,18 @@ const CustomSignage = () => {
       <div className="bg-white">
         <div className="mx-auto max-w-2xl grid grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-12 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
           <div>
-            <CustomSignageForm onSubmit={handleFormSubmit} />
+            {showForm && (
+              <CustomSignageForm type={type} onSubmit={handleFormSubmit} />
+            )}
+            {/* {!showForm && !isPhoneVerified && (
+            <PhoneVerification onSuccess={handlePhoneVerificationSuccess} />
+          )} */}
+            {formSubmitted && (
+              <div className="mt-6 text-lg text-indigo-600">
+                Thank you for showing interest. Our customer executive will
+                connect with you shortly.
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-2 grid-rows-2 gap-4 sm:gap-6 lg:gap-8">
             <img

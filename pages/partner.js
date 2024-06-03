@@ -12,6 +12,7 @@ const partner = () => {
   const [showForm, setShowForm] = useState(true);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const type = "Partner Request";
 
   const handleFormSubmit = (formData) => {
     console.log("Form data:", formData);
@@ -91,7 +92,9 @@ const partner = () => {
           </div>
         </div>
         <div className="mx-auto max-w-2xl py-16">
-          {showForm && <CustomSignageForm onSubmit={handleFormSubmit} />}
+          {showForm && (
+            <CustomSignageForm type={type} onSubmit={handleFormSubmit} />
+          )}
           {/* {!showForm && !isPhoneVerified && (
             <PhoneVerification onSuccess={handlePhoneVerificationSuccess} />
           )} */}

@@ -45,14 +45,14 @@ const HeroSection = ({ isAuthenticated, onAuthComplete }) => {
 
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-500 sm:text-6xl">
-            Indoor & Outdoor Retail Signage Solutions
+            A Online Marketplace of Signage & Advertising Solutions
           </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
+          {/* <p className="mt-6 text-lg leading-8 text-gray-600">
             Attractive signs (both digital & static) are memorable and cause an
             emotional reaction in customers. Customers use these graphics to
             decide whether a shop is the right fit for them before ever walking
             through the door.
-          </p>
+          </p> */}
           {!formSubmitted && (
             <div className="flex justify-center mt-6 space-x-4">
               <button

@@ -1,15 +1,19 @@
 import { useState } from "react";
 import Link from "next/link";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  XMarkIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline"; // Import the ShoppingCartIcon
 import { Dialog } from "@headlessui/react";
 import { useRouter } from "next/router";
 
 const navigation = [
-  // { name: "Product", href: "#products" },
   { name: "Become a partner", href: "/partner" },
-  { name: "ContactUs", href: "/contact" },
-  { name: "Company", href: "#company" },
-  { name: "Cart", href: "/cart" },
+  { name: "MarketPlace", href: "/productScreen" },
+
+  { name: "ContactUs", href: "/contact-us" },
+  { name: "AboutUs", href: "#company" },
 ];
 
 const Header = () => {
@@ -28,7 +32,7 @@ const Header = () => {
           className="flex items-center justify-between p-6 lg:px-8"
           aria-label="Global"
         >
-          <div className="flex lg:flex-1">
+          <div className="flex lg:flex-1 items-center">
             <Link href="/">
               <img
                 className="-m-1.5 p-1.5 h-8 w-auto"
@@ -57,12 +61,17 @@ const Header = () => {
               </Link>
             ))}
           </div>
+
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <Link href="/cart" className="text-gray-400 mr-4">
+              <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
+            </Link>
             <button
               onClick={toggleAuthenticate}
-              className="text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
+              className="flex items-center space-x-1 text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
             >
-              Log in <span aria-hidden="true">&rarr;</span>
+              <span>Log in</span>
+              <span aria-hidden="true">&rarr;</span>
             </button>
           </div>
         </nav>
@@ -106,6 +115,7 @@ const Header = () => {
                     </Link>
                   ))}
                 </div>
+
                 <div className="py-6">
                   <button
                     onClick={toggleAuthenticate}

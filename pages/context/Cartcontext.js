@@ -8,10 +8,11 @@ export const CartProvider = ({ children }) => {
   const addToCart = (productId) => {
     setCartItems((prevItems) => {
       const item = prevItems.find((item) => item.id === productId);
-      console.log(item);
       if (item) {
         return prevItems.map((item) =>
-          item.id == productId ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === productId
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
         );
       }
       return [...prevItems, { id: productId, quantity: 1 }];
@@ -34,12 +35,18 @@ export const CartProvider = ({ children }) => {
 
   const decreaseQuantity = (productId) => {
     setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === productId && item.quantity > 0
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
+      prevItems
+        .map((item) =>
+          item.id === productId && item.quantity > 1
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
     );
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
   };
 
   return (
@@ -50,6 +57,7 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         increaseQuantity,
         decreaseQuantity,
+        clearCart, // Expose clearCart function
       }}
     >
       {children}
@@ -59,5 +67,4 @@ export const CartProvider = ({ children }) => {
 
 export const useCart = () => useContext(CartContext);
 
-// Default export of CartProvider
 export default CartProvider;

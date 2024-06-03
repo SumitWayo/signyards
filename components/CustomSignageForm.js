@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
-const CustomSignageForm = ({ onSubmit }) => {
+const CustomSignageForm = ({ type, onSubmit }) => {
   const [formData, setFormData] = useState({
     name: "",
     addressLine1: "",
@@ -10,9 +11,19 @@ const CustomSignageForm = ({ onSubmit }) => {
     landmark: "",
     state: "",
     phone: "",
+    type: type,
   });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const router = useRouter();
+  console.log(type);
+
+  useEffect(() => {
+    const savedFormData = localStorage.getItem("formData");
+    if (savedFormData) {
+      setFormData(JSON.parse(savedFormData));
+    }
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -46,14 +57,51 @@ const CustomSignageForm = ({ onSubmit }) => {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return Object.keys(newErrors).length === 0; // Return true if no errors
+  };
+
+  const sendFormData = async (data) => {
+    try {
+      const response = await fetch(
+        "https://signyards.in/getCustomSignageData.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const text = await response.text();
+      if (text.trim() === "") {
+        console.log("Empty response received");
+        return; // Exit the function if the response is empty
+      }
+
+      const jsonData = JSON.parse(text);
+      console.log("Form submitted successfully:", jsonData);
+    } catch (error) {
+      console.error("Error submitting form data:", error.message);
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (validateForm()) {
-      onSubmit(formData);
-      setSubmitted(true);
+      const token = localStorage.getItem("accessToken");
+      const updatedFormData = { ...formData, type };
+      if (token) {
+        sendFormData(updatedFormData);
+        setSubmitted(true);
+      } else {
+        localStorage.setItem("formData", JSON.stringify(updatedFormData));
+        router.push("/Authent");
+      }
     }
   };
 
