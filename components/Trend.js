@@ -1,4 +1,5 @@
 import React from "react";
+
 const stats = [
   {
     id: 1,
@@ -17,24 +18,31 @@ const stats = [
     value: "50+",
   }, // New product
 ];
+
 const Trend = () => {
   return (
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-4">
-          {stats.map((stat, index) => [
+          {stats.map((stat, index) => (
             <div
               key={stat.id}
               className="mx-auto flex max-w-xs flex-col gap-y-4"
             >
-              <dt className="text-base leading-7 font-semibold text-gray-800">
+              <dt
+                className="text-base leading-7 font-semibold text-gray-800"
+                style={{ color: "#0f4b6e" }}
+              >
                 {stat.name}
               </dt>
-              <dd className="order-first text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+              <dd
+                className="order-first text-3xl font-bold tracking-tight sm:text-5xl"
+                style={{ color: "#0f4b6e", textShadow: "2px 2px 2px gold" }}
+              >
                 {stat.value}
               </dd>
-            </div>,
-          ])}
+            </div>
+          ))}
         </dl>
       </div>
     </div>

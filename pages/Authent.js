@@ -18,8 +18,11 @@ const Authent = ({ onAuthComplete, handleClose }) => {
     const token = localStorage.getItem("accessToken");
     if (token) {
       setAlreadyLoggedIn(true);
+      setTimeout(() => {
+        router.push("/"); // Redirect to main screen after 5 seconds
+      }, 3000);
     }
-  }, []);
+  }, []); // Make sure to close the dependency array properly
 
   const [token, setToken] = useState("");
 

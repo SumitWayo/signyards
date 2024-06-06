@@ -39,14 +39,17 @@ const HeroSection = ({ isAuthenticated, onAuthComplete }) => {
   };
 
   return (
-    <div className="relative isolate px-6 lg:px-8">
+    <div className=" bg-gray-800 relative isolate px-6 lg:px-8">
       <div className="mx-auto max-w-2xl py-32 sm:py-38 lg:py-56">
         {/* {showAuthPopup && <Authent onAuthComplete={handleAuthComplete} />} */}
 
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-500 sm:text-6xl">
-            A Online Marketplace of Signage & Advertising Solutions
+            An Online <span style={{ color: "gold" }}>Marketplace </span>of
+            <span style={{ color: "gold" }}> Signage </span> & Advertising{" "}
+            <span style={{ color: "gold" }}>Solutions</span>{" "}
           </h1>
+
           {/* <p className="mt-6 text-lg leading-8 text-gray-600">
             Attractive signs (both digital & static) are memorable and cause an
             emotional reaction in customers. Customers use these graphics to
@@ -54,7 +57,7 @@ const HeroSection = ({ isAuthenticated, onAuthComplete }) => {
             through the door.
           </p> */}
           {!formSubmitted && (
-            <div className="flex justify-center mt-6 space-x-4">
+            <div className="flex justify-center mt-8 space-x-4">
               <button
                 onClick={handleCustomSignageClick}
                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -64,7 +67,7 @@ const HeroSection = ({ isAuthenticated, onAuthComplete }) => {
 
               <button
                 onClick={handleMarketplaceClick}
-                className="rounded-md bg-gray-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
               >
                 BUY FROM MARKETPLACE
               </button>

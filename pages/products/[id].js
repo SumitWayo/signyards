@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 import products from "../../public/data/product";
 import { useCart } from "../../pages/context/Cartcontext";
-import Products from "../../components/Products";
+import Products from "@/components/Products";
 
 const ProductDetail = () => {
   const router = useRouter();
   const { id } = router.query;
   const { cartItems, addToCart } = useCart();
+  console.log(Products, "ddddd");
 
   const handleButtonClick = (product) => {
     const isInCart = cartItems.find((item) => item.id === product.id);
@@ -27,7 +28,6 @@ const ProductDetail = () => {
 
   return (
     <div>
-      {" "}
       <div className="flex flex-col md:flex-row p-4">
         <div className="flex-none md:w-1/2">
           <img

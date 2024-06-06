@@ -4,7 +4,7 @@ const product = [
     name: "Roll-up Standee | 3x6 feet (Plain) Aluminium Body (without Flex) pack of 1",
     type: "Product",
     price: 700,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/roll.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
@@ -15,29 +15,19 @@ const product = [
     name: "3D Aluminium Letters (illuminated) | Custom Size | Price per inch",
     type: "Product",
     price: 160,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/IMG_1387.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
       "Brand: NA\nSize: Custom (as per design)\nColor: NA\nMaterial: Aluminium\nItem weight: NA\n\n• Perfect for Sigange Boards\n• Professional looking, lightweight and sturdy\n• These are also called Aluminium Channel Letters also channelume letters\n• Its unique look captures the attention of anyone walking by your business\n• Once you buy this product and service, our seller partner will call you back for further discussions.\n\nDelivery - 2-7 working days after payment",
   },
-  {
-    id: "SY240012",
-    name: "CNC Router Cutting Services | 4x8 feet | starts at 30/- per sq feet",
-    type: "Service",
-    price: 0,
-    imageSrc: "../assets/logo.jpg",
-    imageAlt:
-      "Person using a pen to cross a task off a productivity paper card.",
-    description:
-      "All CNC router Cutting services starts at 30/- per sq feet\n\nCutting material excludes:\n• Stone, Metal",
-  },
+
   {
     id: "SY240003",
     name: "3D Liquid Acrylic Letters (illuminated) | Custom Size | Price per inch",
     type: "Product",
     price: 160,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/SY004.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
@@ -48,29 +38,19 @@ const product = [
     name: "CNC Router Cutting Services | 4x8 feet | starts at 30/- per sq feet",
     type: "Service",
     price: 0,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/Cutting.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
       "All CNC router Cutting services starts at 30/- per sq feet\n\nCutting material excludes:\n• Stone, Metal",
   },
-  {
-    id: "SY240004",
-    name: "Wooden Easel Stand 5 feet height pack of 1",
-    type: "Product",
-    price: 800,
-    imageSrc: "../assets/logo.jpg",
-    imageAlt:
-      "Person using a pen to cross a task off a productivity paper card.",
-    description:
-      "Brand: NA\nSize: 5 feet\nColor: Wooden\nMaterial: Wood\nItem weight: Up to 5 kg\n\n• Perfect for conferences and exhibitions\n• Made of sturdy and stable wood structure\n• This wooden easel is adjustable\n• The assembled easel can be folded up for transport or storage and is lightweight and easy to carry.\n• Pull up stands are easy to set up and collapse, making them a popular choice for sales teams who regularly visit trade shows\n\nDelivery - Same Day after payment",
-  },
+
   {
     id: "SY240005",
     name: "Drive Thru Clipon Box 3x4 feet | Metal body (Coated) Illuminated (waterproof) pack of 1",
     type: "Product",
     price: 15000,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/Cover.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
@@ -81,7 +61,7 @@ const product = [
     name: "CNC Lazer cutting services | size 4x3 feet | starts at 400/- per hour running time",
     type: "Service",
     price: 0,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/Lazer.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
@@ -92,7 +72,7 @@ const product = [
     name: "Signage Board Repair | 2 Technicians",
     type: "Service",
     price: 1800,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/men.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
@@ -103,7 +83,7 @@ const product = [
     name: "ACP Cladding Services | HPL Elevation Services | starts at 250/- per sq feet",
     type: "Service",
     price: 0,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/SY022.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description: "ACP HPL Elevation Services starts at 250 per sq feet",
@@ -113,7 +93,7 @@ const product = [
     name: "400W SMPS Dc Power Supply | Hilight Rainproof | for LED Signages (pack of 5)",
     type: "Product",
     price: 3000,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/12.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
@@ -124,7 +104,7 @@ const product = [
     name: "600W SMPS Dc Power Supply | Hilight Rainproof | for LED Signages (pack of 5)",
     type: "Product",
     price: 4500,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/13.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
@@ -135,7 +115,7 @@ const product = [
     name: "200W SMPS Dc Power Supply | Hilight Rainproof | for LED Signages (pack of 5)",
     type: "Product",
     price: 2600,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/14.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
@@ -146,41 +126,29 @@ const product = [
     name: "100W SMPS Dc Power Supply | Hilight Rainproof | for LED Signages (pack of 5)",
     type: "Product",
     price: 2300,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/15.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
       'Inclusive of all taxes\n\nBrand: Hi-light\nOutput Wattage: 100 watts\nType: Rainproof\nMaterial: Aluminium / Metal\n\n• 100W SMPS Dc Power Supply | Hilight Rainproof | for LED Signages (pack of 5)\n• Warranty - 2 years (Please contact our support for warranty related issues)\n• "N" & "L" line on the sketch map means the neutral line and the live line.\n• "E" is for Earth line, "+" is outgoing positive pole, "-" is outgoing negative pole.\n• 100% test before shipping to ensure product safety, stability and durability.\n\nDelivery Time - same day after payment',
   },
   {
-    id: "SY240012",
-    name: "CNC Router Cutting Services | 4x8 feet | starts at 30/- per sq feet",
-    type: "Service",
-    price: 0,
-    imageSrc: "../assets/logo.jpg",
+    id: "SY240004",
+    name: "Wooden Easel Stand 5 feet height pack of 1",
+    type: "Product",
+    price: 800,
+    imageSrc: "/assets/wooden.JPG",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
-      "All CNC router Cutting services starts at 30/- per sq feet\n\nCutting material excludes:\n• Stone, Metal",
-  },
-
-  {
-    id: "SY240013",
-    name: "CNC Lazer cutting services | size 4x3 feet | starts at 400/- per hour running time",
-    type: "Service",
-    price: 0,
-    imageSrc: "../assets/logo.jpg",
-    imageAlt:
-      "Person using a pen to cross a task off a productivity paper card.",
-    description:
-      "All CNC Lazer Cutting services starts at 400/- per hour running time\n\nIncludes\nAcrylic sheets up to 12mm, mdf 3mm,\n\nCutting material excludes:\n• Stone, Metal sheets",
+      "Brand: NA\nSize: 5 feet\nColor: Wooden\nMaterial: Wood\nItem weight: Up to 5 kg\n\n• Perfect for conferences and exhibitions\n• Made of sturdy and stable wood structure\n• This wooden easel is adjustable\n• The assembled easel can be folded up for transport or storage and is lightweight and easy to carry.\n• Pull up stands are easy to set up and collapse, making them a popular choice for sales teams who regularly visit trade shows\n\nDelivery - Same Day after payment",
   },
   {
     id: "SY240014",
     name: "White Sunboard/Foamboard | 2mm Thickness, Pack of 10 pcs (8x4 feet)",
     type: "Product",
     price: 3500,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/16.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
@@ -191,7 +159,7 @@ const product = [
     name: "White Sunboard/Foamboard | 3mm Thickness, Pack of 10 pcs (8x4 feet)",
     type: "Product",
     price: 4000,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/16.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
@@ -202,7 +170,7 @@ const product = [
     name: "White Sunboard/Foamboard | 5mm Thickness, Pack of 10 pcs (8x4 feet)",
     type: "Product",
     price: 6500,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/16.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
@@ -213,7 +181,7 @@ const product = [
     name: "White Sunboard/Foamboard | 8mm Thickness, Pack of 5 pcs (8x4 feet)",
     type: "Product",
     price: 6500,
-    imageSrc: "../assets/logo.jpg",
+    imageSrc: "/assets/16.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:

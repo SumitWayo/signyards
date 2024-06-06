@@ -41,8 +41,9 @@ export default function Main() {
       <Marketplace />
 
       {/* <Service /> */}
-      <Ceo />
       <Discount />
+      <Ceo />
+
       <Footer />
     </div>
   );

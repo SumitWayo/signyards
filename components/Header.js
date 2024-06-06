@@ -1,17 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Bars3Icon,
   XMarkIcon,
   ShoppingCartIcon,
-} from "@heroicons/react/24/outline"; // Import the ShoppingCartIcon
+} from "@heroicons/react/24/outline";
 import { Dialog } from "@headlessui/react";
 import { useRouter } from "next/router";
 
 const navigation = [
   { name: "Become a partner", href: "/partner" },
   { name: "MarketPlace", href: "/productScreen" },
-
   { name: "ContactUs", href: "/contact-us" },
   { name: "AboutUs", href: "#company" },
 ];
@@ -19,15 +18,38 @@ const navigation = [
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showAuthenticate, setShowAuthenticate] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
   const router = useRouter();
 
+  useEffect(() => {
+    // Check if user is already logged in (you need to implement this logic)
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
   const toggleAuthenticate = () => {
-    router.push("/Authent");
+    if (isLoggedIn) {
+      // Log out logic
+      setShowAuthenticate(true); // Open confirmation dialog
+    } else {
+      router.push("/Authent");
+    }
+  };
+
+  const handleLogout = () => {
+    // Clear access token from localStorage
+    localStorage.removeItem("accessToken");
+    setIsLoggedIn(false); // Update login status
+    setShowAuthenticate(false); // Close confirmation dialog
   };
 
   return (
     <div>
-      <header className="absolute inset-x-0 top-0 z-50">
+      <header className=" bg-gray-800 absolute inset-x-0 top-0 z-50">
         <nav
           className="flex items-center justify-between p-6 lg:px-8"
           aria-label="Global"
@@ -47,7 +69,11 @@ const Header = () => {
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
               onClick={() => setMobileMenuOpen(true)}
             >
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+              <Bars3Icon
+                className="h-6 w-6"
+                aria-hidden="true"
+                style={{ color: "gold" }}
+              />
             </button>
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
@@ -64,15 +90,29 @@ const Header = () => {
 
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <Link href="/cart" className="text-gray-400 mr-4">
-              <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
+              <ShoppingCartIcon
+                className="h-6 w-6"
+                style={{ color: "gold" }}
+                aria-hidden="true"
+              />
             </Link>
-            <button
-              onClick={toggleAuthenticate}
-              className="flex items-center space-x-1 text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
-            >
-              <span>Log in</span>
-              <span aria-hidden="true">&rarr;</span>
-            </button>
+            {isLoggedIn ? (
+              <button
+                onClick={toggleAuthenticate}
+                className="flex items-center space-x-1 text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
+              >
+                <span>Log out</span>
+                <span aria-hidden="true">&rarr;</span>
+              </button>
+            ) : (
+              <button
+                onClick={toggleAuthenticate}
+                className="flex items-center space-x-1 text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
+              >
+                <span>Log in</span>
+                <span aria-hidden="true">&rarr;</span>
+              </button>
+            )}
           </div>
         </nav>
         <Dialog
@@ -99,7 +139,11 @@ const Header = () => {
                 className="-m-2.5 rounded-md p-2.5 text-gray-700"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                <XMarkIcon
+                  className="h-6 w-6"
+                  style={{ color: "gold" }}
+                  aria-hidden="true"
+                />
               </button>
             </div>
             <div className="mt-6 flow-root">
@@ -117,12 +161,23 @@ const Header = () => {
                 </div>
 
                 <div className="py-6">
-                  <button
-                    onClick={toggleAuthenticate}
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-400 hover:bg-gray-300"
-                  >
-                    Log in
-                  </button>
+                  {isLoggedIn ? (
+                    <button
+                      onClick={toggleAuthenticate}
+                      style={{ color: "gold" }}
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-400 hover:bg-gray-300"
+                    >
+                      Log out
+                    </button>
+                  ) : (
+                    <button
+                      onClick={toggleAuthenticate}
+                      style={{ color: "gold" }}
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-400 hover:bg-gray-300"
+                    >
+                      Log in
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -137,6 +192,25 @@ const Header = () => {
           className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"
         >
           {/* Your authentication component goes here */}
+          {isLoggedIn && (
+            <div className="bg-white p-6 rounded-lg text-center">
+              <p>Are you sure you want to log out?</p>
+              <div className="mt-4 flex justify-center">
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 bg-yellow-400 text-white rounded-md mr-2"
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={() => setShowAuthenticate(false)}
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md ml-2"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
