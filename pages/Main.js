@@ -10,6 +10,8 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
 import Extra from "@/components/Extra";
+import AboutUsSection from "@/components/AboutSection";
+import MainBlogPage from "@/components/BlogSection";
 
 export default function Main() {
   const authRef = useRef(null);
@@ -38,11 +40,13 @@ export default function Main() {
       <HeroSection isAuthenticated={isAuthenticated} authRef={authRef} />
       <Trend />
       <Products />
-      <Marketplace />
-
+      {/* <Marketplace /> */}
+      <AboutUsSection />
       {/* <Service /> */}
-      <Discount />
-      <Ceo />
+      {/* <Discount /> */}
+      {/* <Ceo /> */}
+      {/* <Products /> */}
+      <MainBlogPage />
 
       <Footer />
     </div>

@@ -12,7 +12,8 @@ const navigation = [
   { name: "Become a partner", href: "/partner" },
   { name: "MarketPlace", href: "/productScreen" },
   { name: "ContactUs", href: "/contact-us" },
-  { name: "AboutUs", href: "#company" },
+  { name: "AboutUs", href: "/AboutUs" },
+  { name: "Blog", href: "/BlogPage" },
 ];
 
 const Header = () => {
