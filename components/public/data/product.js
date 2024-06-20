@@ -49,7 +49,7 @@ const product = [
     name: "Wooden Easel Stand 5 feet height pack of 1",
     type: "Product",
     price: 800,
-    imageSrc: "../assets/wooden.JPG",
+    imageSrc: "../assets/wooden.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description:
@@ -79,9 +79,9 @@ const product = [
   },
   {
     id: "SY240006",
-    name: "Signage Board Repair | 2 Technicians",
+    name: "Signage Board Repair | 2 Technicians | At 1800rs",
     type: "Service",
-    price: 1800,
+    price: 0,
     imageSrc: "../assets/men.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
@@ -90,10 +90,10 @@ const product = [
   },
   {
     id: "SY240007",
-    name: "ACP Cladding Services | HPL Elevation Services | starts at 250/- per sq feet",
+    name: "ACPP Cladding Services | HPL Elevation Services | starts at 250/- per sq feet",
     type: "Service",
     price: 0,
-    imageSrc: "../assets/SY022.jpg",
+    imageSrc: "../assets/23.jpg",
     imageAlt:
       "Person using a pen to cross a task off a productivity paper card.",
     description: "ACP HPL Elevation Services starts at 250 per sq feet",

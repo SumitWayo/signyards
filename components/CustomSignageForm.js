@@ -4,13 +4,10 @@ import { useRouter } from "next/router";
 const CustomSignageForm = ({ type, onSubmit }) => {
   const [formData, setFormData] = useState({
     name: "",
-    addressLine1: "",
-    addressLine2: "",
+
     city: "",
-    pincode: "",
-    landmark: "",
-    state: "",
-    phone: "",
+    description: "",
+
     type: type,
   });
   const [errors, setErrors] = useState({});
@@ -33,15 +30,13 @@ const CustomSignageForm = ({ type, onSubmit }) => {
 
   const validateForm = () => {
     let newErrors = {};
-    ["name", "addressLine1", "city", "state", "phone", "pincode"].forEach(
-      (field) => {
-        if (!formData[field]) {
-          newErrors[field] = `${
-            field[0].toUpperCase() + field.slice(1).replace(/([A-Z])/g, " $1")
-          } is required`;
-        }
+    ["name", "phone", "city", "description"].forEach((field) => {
+      if (!formData[field]) {
+        newErrors[field] = `${
+          field[0].toUpperCase() + field.slice(1).replace(/([A-Z])/g, " $1")
+        } is required`;
       }
-    );
+    });
 
     if (
       formData.pincode &&
@@ -113,16 +108,7 @@ const CustomSignageForm = ({ type, onSubmit }) => {
         </p>
       ) : (
         <form onSubmit={handleSubmit}>
-          {[
-            "name",
-            "addressLine1",
-            "addressLine2",
-            "landmark",
-            "city",
-            "pincode",
-            "state",
-            "phone",
-          ].map((field) => (
+          {["name", "phone", "city", "description"].map((field) => (
             <div key={field} className="w-full mb-4">
               <input
                 type="text"

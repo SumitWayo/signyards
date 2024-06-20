@@ -2,16 +2,13 @@ import React, { useRef, useState, useEffect } from "react";
 import Trend from "../components/Trend";
 import Products from "../components/Products";
 import Service from "../components/Service";
-import Work from "../components/Work";
-import Ceo from "../components/Ceo";
-import Discount from "../components/Discount";
-import Marketplace from "../components/Marketplace";
+
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
-import Extra from "@/components/Extra";
 import AboutUsSection from "@/components/AboutSection";
 import MainBlogPage from "@/components/BlogSection";
+import ServiceSection from "@/components/ServiceSection";
 
 export default function Main() {
   const authRef = useRef(null);
@@ -42,12 +39,12 @@ export default function Main() {
       <Products />
       {/* <Marketplace /> */}
       <AboutUsSection />
+      <ServiceSection />
       {/* <Service /> */}
       {/* <Discount /> */}
       {/* <Ceo /> */}
       {/* <Products /> */}
       <MainBlogPage />
-
       <Footer />
     </div>
   );

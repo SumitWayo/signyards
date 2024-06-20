@@ -1,40 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  ArrowPathIcon,
-  CloudArrowUpIcon,
-  FingerPrintIcon,
-  LockClosedIcon,
-} from "@heroicons/react/24/outline";
 import CustomSignageForm from "../components/CustomSignageForm";
-
-const features = [
-  {
-    name: "Push to deploy",
-    description:
-      "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-    icon: CloudArrowUpIcon,
-  },
-  {
-    name: "SSL certificates",
-    description:
-      "Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.",
-    icon: LockClosedIcon,
-  },
-  {
-    name: "Simple queues",
-    description:
-      "Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.",
-    icon: ArrowPathIcon,
-  },
-  {
-    name: "Advanced security",
-    description:
-      "Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.",
-    icon: FingerPrintIcon,
-  },
-];
+import Trend from "@/components/Trend";
 
 const CustomSignage = () => {
   const [showForm, setShowForm] = useState(true);
@@ -46,63 +14,79 @@ const CustomSignage = () => {
     setFormSubmitted(true);
     setShowForm(false);
   };
-
+  const status = [
+    {
+      name: "SKUs of Products & Services across different categories on our Marketplace.",
+      value: "50+",
+    },
+    {
+      name: "Sellers or Seller partners are registered on signyards across categories",
+      value: "20+",
+    },
+    { name: "Registers user or Buyers or clients.", value: "50+" },
+    {
+      name: "Turnkey Signages & Advertising Projects Completed or delivered for different clients across India.",
+      value: "50+",
+    },
+  ];
   return (
-    <div>
-      <div className="bg-white">
-        <div className="mx-auto max-w-2xl grid grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-12 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
-          <div>
-            {showForm && (
-              <CustomSignageForm type={type} onSubmit={handleFormSubmit} />
-            )}
-            {/* {!showForm && !isPhoneVerified && (
-            <PhoneVerification onSuccess={handlePhoneVerificationSuccess} />
-          )} */}
-            {formSubmitted && (
-              <div className="mt-6 text-lg text-indigo-600">
-                Thank you for showing interest. Our customer executive will
-                connect with you shortly.
-              </div>
-            )}
-          </div>
-          <div className="grid grid-cols-2 grid-rows-2 gap-4 sm:gap-6 lg:gap-8">
-            <img
-              src="https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-01.jpg"
-              alt="Walnut card tray with white powder coated steel divider and 3 punchout holes."
-              className="rounded-lg bg-gray-100"
-            />
-            <img
-              src="https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-02.jpg"
-              alt="Top down view of walnut card tray with embedded magnets and card groove."
-              className="rounded-lg bg-gray-100"
-            />
-            <img
-              src="https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-03.jpg"
-              alt="Side of walnut card tray with card groove and recessed card area."
-              className="rounded-lg bg-gray-100"
-            />
-            <img
-              src="https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-04.jpg"
-              alt="Walnut card tray filled with cards and card angled in dedicated groove."
-              className="rounded-lg bg-gray-100"
-            />
-          </div>
-        </div>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {features.map((feature) => (
-              <div key={feature.name} className="flex flex-col items-center">
-                <feature.icon className="h-12 w-12 text-indigo-600" />
-                <h3 className="mt-4 text-lg font-medium text-gray-900">
-                  {feature.name}
-                </h3>
-                <p className="mt-2 text-center text-gray-500">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
+    <div
+      className="bg-white min-h-screen bg-cover bg-center"
+      style={{
+        backgroundImage:
+          "url('https://pranavagroup.com/template/img/about-01_1600.jpg')",
+      }}
+    >
+      <div className="bg-white bg-opacity-75 min-h-screen">
+        <div className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-8 items-center">
+            <div>
+              {showForm && (
+                <CustomSignageForm type={type} onSubmit={handleFormSubmit} />
+              )}
+              {formSubmitted && (
+                <div className="mt-4 text-lg text-indigo-600">
+                  Thank you for showing interest. Our customer executive will
+                  connect with you shortly.
+                </div>
+              )}
+            </div>
+            <div className="grid grid-cols-2 gap-2 lg:gap-4">
+              <img
+                src="../assets/Blog6.jpg"
+                alt="W."
+                className="rounded-lg bg-gray-100 shadow-md"
+              />
+              <img
+                src="../assets/Blog2.jpg"
+                alt="x"
+                className="rounded-lg bg-gray-100 shadow-md"
+              />
+              <img
+                src="../assets/Blog5.jpg"
+                alt="S"
+                className="rounded-lg bg-gray-100 shadow-md"
+              />
+              <img
+                src="../assets/Blog3.jpg"
+                alt="W"
+                className="rounded-lg bg-gray-100 shadow-md"
+              />
+            </div>
           </div>
         </div>
+        <dl className="grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
+          {status.map((stat) => (
+            <div key={stat.name} className="flex flex-col items-start">
+              <dd className="text-2xl font-bold leading-9 tracking-tight text-red">
+                {stat.value}
+              </dd>
+              <dt className="text-sm font-bold leading-7 text-gray-900">
+                {stat.name}
+              </dt>
+            </div>
+          ))}
+        </dl>
       </div>
     </div>
   );

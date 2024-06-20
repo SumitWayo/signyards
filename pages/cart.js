@@ -1,40 +1,8 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCart } from "./context/Cartcontext";
-import products from "../public/data/product";
 import Modal from "../components/Modal";
 import OrderDetailForm from "../components/OrderDetailForm";
-
-const OrderSummary = ({ orderData, formData }) => {
-  console.log("--", orderData);
-  return (
-    <div>
-      <h2>Order Summary</h2>
-      {orderData.map((item, index) => (
-        <div key={index}>
-          <img
-            src={item.product.imageSrc}
-            alt={item.product.imageAlt || "Product Image"}
-            className="w-20 h-20 object-cover rounded-md"
-          />
-          <p>
-            {item.product.name}: Quantity-{item.quantity}: price-
-            {item.product.price}: Total-{item.quantity * item.product.price}
-          </p>
-        </div>
-      ))}
-      <h3>Customer Information</h3>
-      <p>Name: {formData.name}</p>
-      <p>
-        Address: {formData.addressLine1}, {formData.addressLine2}
-      </p>
-      <p>City: {formData.city}</p>
-      <p>State: {formData.state}</p>
-      <p>Pincode: {formData.pincode}</p>
-      <p>Phone: {formData.phone}</p>
-      <p>GST Number: {formData.gstNumber}</p>
-    </div>
-  );
-};
+import OrderSummary from "../components/OrderSummary"; // Import OrderSummary component
 
 const Cart = () => {
   const {
@@ -48,10 +16,32 @@ const Cart = () => {
   const [orderData, setOrderData] = useState(null);
   const [formData, setFormData] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [productsData, setProductsData] = useState([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+  const [errorProducts, setErrorProducts] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("https://signyards.in/getProducts.php");
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const data = await response.json();
+        setProductsData(data);
+        setLoadingProducts(false);
+      } catch (error) {
+        setErrorProducts(error.message);
+        setLoadingProducts(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const totalValue = cartItems.reduce((acc, item) => {
-    const product = products.find((p) => p.id === item.id);
-    return acc + (product ? Number(product.price) * item.quantity : 0);
+    const product = productsData.find((p) => p.id === item.id);
+    return acc + (product ? Number(product.price_per_unit) * item.quantity : 0);
   }, 0);
 
   const handleBuyClick = () => {
@@ -62,9 +52,14 @@ const Cart = () => {
     setIsSubmitting(true);
     try {
       const orderProducts = cartItems.map((item) => {
-        const product = products.find((p) => p.id === item.id);
+        const product = productsData.find((p) => p.id === item.id);
         return {
-          product: product,
+          product: product || {
+            id: item.id,
+            name: "Unknown Product",
+            price: 0,
+            imageSrc: "", // Provide default values if product is not found
+          },
           quantity: item.quantity,
         };
       });
@@ -105,8 +100,40 @@ const Cart = () => {
 
       // Set formData to display the summary
       setFormData(formData);
+      setShowModal(true); // Show modal after order submission
     } catch (error) {
       console.error("Error submitting order:", error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleConfirmOrder = async () => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("https://signyards.in/getOrder.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          formData,
+          orderData,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json();
+      console.log("Order confirmed successfully:", result);
+
+      // Clear the cart upon successful order confirmation
+      clearCart();
+      setShowModal(false); // Close modal after confirmation
+    } catch (error) {
+      console.error("Error confirming order:", error.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -116,9 +143,13 @@ const Cart = () => {
     <div className="container mx-auto mt-10 p-5">
       <h1 className="text-2xl font-bold mb-8">Cart</h1>
       <div className="flex flex-col space-y-4">
-        {cartItems.length > 0 ? (
+        {loadingProducts ? (
+          <div>Loading products...</div>
+        ) : errorProducts ? (
+          <div>Error: {errorProducts}</div>
+        ) : cartItems.length > 0 ? (
           cartItems.map((item) => {
-            const product = products.find((p) => p.id === item.id);
+            const product = productsData.find((p) => p.id === item.id);
             if (!product) {
               return (
                 <div
@@ -132,7 +163,7 @@ const Cart = () => {
                 </div>
               );
             }
-            const totalPrice = Number(product.price) * item.quantity;
+            const totalPrice = Number(product.price_per_unit) * item.quantity;
             return (
               <div
                 key={item.id}
@@ -140,12 +171,12 @@ const Cart = () => {
               >
                 <div className="flex items-center space-x-4">
                   <img
-                    src={product.imageSrc}
-                    alt={product.imageAlt || "Product Image"}
+                    src={`data:image/jpeg;base64,${product.imageBase64}`}
+                    alt={product.title}
                     className="w-20 h-20 object-cover rounded-md"
                   />
                   <div>
-                    <div className="text-lg font-medium">{product.name}</div>
+                    <div className="text-lg font-medium">{product.title}</div>
                     <div className="flex items-center">
                       <button
                         onClick={() => decreaseQuantity(item.id)}
@@ -195,7 +226,11 @@ const Cart = () => {
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           {orderData && formData ? (
-            <OrderSummary orderData={orderData} formData={formData} />
+            <OrderSummary
+              orderData={orderData}
+              formData={formData}
+              onConfirm={handleConfirmOrder}
+            />
           ) : (
             <OrderDetailForm onSubmit={handleSubmitOrder} />
           )}

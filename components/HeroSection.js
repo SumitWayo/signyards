@@ -44,7 +44,7 @@ const HeroSection = ({ isAuthenticated, onAuthComplete }) => {
         {/* {showAuthPopup && <Authent onAuthComplete={handleAuthComplete} />} */}
 
         <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-500 sm:text-6xl">
+          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
             An Online <span style={{ color: "gold" }}>Marketplace </span>of
             <span style={{ color: "gold" }}> Signage </span> & Advertising{" "}
             <span style={{ color: "gold" }}>Solutions</span>{" "}

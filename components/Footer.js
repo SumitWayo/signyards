@@ -17,9 +17,9 @@ const Footer = () => {
         <div className="mb-8 w-full md:w-1/3 p-6 bg-white bg-opacity-10">
           <h1 className="text-4xl text-yellow-400 font-bold mb-6">Signyards</h1>
           <p className="text-lg mb-4 text-white">
-            Signyard is your premier destination for custom signs and banners.
-            We offer high-quality signage solutions for businesses, events, and
-            more.
+            Signyards in an online marketplace for signage and advertising
+            solutions in India. We offer high-quality signage options for
+            businesses, events and more.
           </p>
         </div>
         <div className="w-full md:w-1/3 mb-8 p-6 bg-white bg-opacity-10">
@@ -31,10 +31,16 @@ const Footer = () => {
             <p className="text-white">hello@signyards.com</p>
           </div>
           <div className="flex items-center mb-4">
-            <FiPhone className="text-white mr-4 text-2xl" />
+            <FiPhone
+              className="text-white
+             mr-4 text-2xl"
+            />
             <p className="text-white">9205778814</p>
           </div>
           <div className="space-x-2 text-sm items-center">
+            <Link legacyBehavior href="/blogs">
+              <a className="text-white border-white underline">Blogs</a>
+            </Link>
             <Link legacyBehavior href="/privacy-policy">
               <a className="text-white border-white underline">
                 Privacy Policy
@@ -45,12 +51,10 @@ const Footer = () => {
                 Terms & Conditions
               </a>
             </Link>
-            <Link legacyBehavior href="/blogs">
-              <a className="text-white border-white underline">Blogs</a>
-            </Link>
-            <Link legacyBehavior href="/about-us">
-              <a className="text-white border-white underline">About Us</a>
-            </Link>
+
+            {/* <Link legacyBehavior href="/about-us">
+              <a className="text-white border-white underline">AboutUs</a>
+            </Link> */}
             <Link legacyBehavior href="/faqs">
               <a className="text-white border-white underline">FAQs</a>
             </Link>

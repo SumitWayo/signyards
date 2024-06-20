@@ -12,8 +12,7 @@ const navigation = [
   { name: "Become a partner", href: "/partner" },
   { name: "MarketPlace", href: "/productScreen" },
   { name: "ContactUs", href: "/contact-us" },
-  { name: "AboutUs", href: "/AboutUs" },
-  { name: "Blog", href: "/BlogPage" },
+  { name: "AboutUs", href: "/about-us" },
 ];
 
 const Header = () => {
@@ -82,7 +81,7 @@ const Header = () => {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm font-semibold leading-6 text-gray-400"
+                className="text-sm font-semibold leading-6 text-white"
               >
                 {item.name}
               </Link>
@@ -100,7 +99,7 @@ const Header = () => {
             {isLoggedIn ? (
               <button
                 onClick={toggleAuthenticate}
-                className="flex items-center space-x-1 text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
+                className="flex items-center space-x-1 text-sm font-semibold leading-6 text-white cursor-pointer"
               >
                 <span>Log out</span>
                 <span aria-hidden="true">&rarr;</span>
@@ -108,7 +107,7 @@ const Header = () => {
             ) : (
               <button
                 onClick={toggleAuthenticate}
-                className="flex items-center space-x-1 text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
+                className="flex items-center space-x-1 text-sm font-semibold leading-6 text-white cursor-pointer"
               >
                 <span>Log in</span>
                 <span aria-hidden="true">&rarr;</span>
@@ -154,7 +153,7 @@ const Header = () => {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-400 hover:bg-gray-300"
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-300"
                     >
                       {item.name}
                     </Link>
@@ -166,7 +165,7 @@ const Header = () => {
                     <button
                       onClick={toggleAuthenticate}
                       style={{ color: "gold" }}
-                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-400 hover:bg-gray-300"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-300"
                     >
                       Log out
                     </button>

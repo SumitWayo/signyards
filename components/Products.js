@@ -1,14 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useCart } from "../pages/context/Cartcontext";
-import productData from "../public/data/product";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const Products = () => {
   const { cartItems, addToCart } = useCart();
   const router = useRouter();
-  const [filter, setFilter] = useState("all"); // State for filtering
-  const [showAllProducts, setShowAllProducts] = useState(false); // State to track whether to show all products
+  const [showAllProducts, setShowAllProducts] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("https://signyards.in/getProducts.php");
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const data = await response.json();
+        setProducts(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []); // empty dependency array means this effect runs once on mount
+  console.log(products);
 
   const handleButtonClick = (product) => {
     const isInCart = cartItems.find((item) => item.id === product.id);
@@ -28,14 +50,20 @@ const Products = () => {
     router.push("/productScreen");
   };
 
-  // Filter products based on the selected filter
-  const filteredProducts = productData.filter((product) => {
-    if (filter === "services") return product.price === 0;
-    if (filter === "products") return product.price > 0;
-    return true; // If 'all', return all products
-  });
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  // Displayed products based on the state and filter, limited to 8 products
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  // Filter only products with type "Product"
+  const filteredProducts = products.filter(
+    (product) => product.type === "Product"
+  );
+
+  // Displayed products based on the state, limited to 8 products
   const displayedProducts = showAllProducts
     ? filteredProducts
     : filteredProducts.slice(0, 8);
@@ -44,17 +72,6 @@ const Products = () => {
     <div id="products">
       <div className="relative bg-gray-800 sm:w-[calc(100%)]">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-24 lg:px-8">
-          <div className="flex justify-between mb-4">
-            <select
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              className="px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              <option value="all">All</option>
-              <option value="services">Services</option>
-              <option value="products">Products</option>
-            </select>
-          </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8">
             {displayedProducts.map((product) => (
               <div key={product.id} className="group block relative">
@@ -65,11 +82,13 @@ const Products = () => {
                     passHref
                   >
                     <a>
-                      <img
-                        src={product.imageSrc}
-                        alt={product.imageAlt}
-                        className="object-cover object-center w-full h-full group-hover:opacity-75 cursor-pointer"
-                      />
+                      <div className="w-full h-64 bg-gray-200">
+                        <img
+                          src={`data:image/jpeg;base64,${product.imageBase64}`}
+                          alt={product.title}
+                          className="object-cover object-center w-full h-full group-hover:opacity-75 cursor-pointer"
+                        />
+                      </div>
                     </a>
                   </Link>
                   <div className="absolute top-2 right-2">
@@ -81,9 +100,9 @@ const Products = () => {
                     </button>
                   </div>
                 </div>
-                <h3 className="mt-4 text-sm text-gray-100">{product.name}</h3>
+                <h3 className="mt-4 text-sm text-gray-100">{product.title}</h3>
                 <p className="mt-1 text-lg font-medium text-yellow-400">
-                  ₹{product.price}
+                  ₹{product.price_per_unit}
                 </p>
                 <button
                   onClick={() => handleButtonClick(product)}
@@ -97,12 +116,12 @@ const Products = () => {
             ))}
           </div>
           {!showAllProducts && filteredProducts.length > 8 && (
-            <div className="text-center mt-6">
+            <div className="absolute bottom-4 right-4">
               <button
                 onClick={handleProductScreen}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="flex items-center px-4 py-2 text-yellow-400 text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                More...?
+                More <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
               </button>
             </div>
           )}
