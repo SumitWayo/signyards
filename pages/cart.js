@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useCart } from "./context/Cartcontext";
+import { useCart } from "../components/context/Cartcontext";
 import Modal from "../components/Modal";
 import OrderDetailForm from "../components/OrderDetailForm";
 import OrderSummary from "../components/OrderSummary"; // Import OrderSummary component
@@ -21,23 +21,66 @@ const Cart = () => {
   const [errorProducts, setErrorProducts] = useState(null);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    // Function to fetch product details by ID
+    const fetchProductById = async (id) => {
+      const requestData = {
+        product: {
+          id: id,
+        },
+      };
+
       try {
-        const response = await fetch("https://signyards.in/getProducts.php");
+        const response = await fetch(
+          "https://signyards.in/getProductById.php",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+          }
+        );
+
         if (!response.ok) {
-          throw new Error("Failed to fetch products");
+          throw new Error(`Failed to fetch product with ID ${id}`);
         }
+
         const data = await response.json();
-        setProductsData(data);
+        return data[0]; // Assuming the API returns an array with a single product object
+      } catch (error) {
+        console.error(`Error fetching product with ID ${id}:`, error.message);
+        return {
+          id: id,
+          title: "Unknown Product",
+          price_per_unit: 0,
+          imageBase64: "", // Provide default values if product is not found
+          description: "",
+        };
+      }
+    };
+
+    // Fetch product details for each item in cartItems
+    const fetchProductsData = async () => {
+      const promises = cartItems.map((item) => fetchProductById(item.id));
+
+      try {
+        const products = await Promise.all(promises);
+        setProductsData(products);
         setLoadingProducts(false);
       } catch (error) {
+        console.error("Error fetching product details:", error);
         setErrorProducts(error.message);
         setLoadingProducts(false);
       }
     };
 
-    fetchProducts();
-  }, []);
+    if (cartItems.length > 0) {
+      fetchProductsData();
+    } else {
+      setLoadingProducts(false);
+      setProductsData([]);
+    }
+  }, [cartItems]);
 
   const totalValue = cartItems.reduce((acc, item) => {
     const product = productsData.find((p) => p.id === item.id);

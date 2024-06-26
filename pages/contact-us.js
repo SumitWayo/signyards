@@ -10,7 +10,7 @@ import {
   FiLinkedin,
 } from "react-icons/fi";
 import Link from "next/link";
-import Footer from "@/components/Footer";
+import Footer from "@/components/sections/Footer";
 
 const Contact = () => {
   return (

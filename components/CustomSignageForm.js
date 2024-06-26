@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 const CustomSignageForm = ({ type, onSubmit }) => {
   const [formData, setFormData] = useState({
     name: "",
-
+    phone: "",
     city: "",
     description: "",
 

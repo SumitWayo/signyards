@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import CustomSignageForm from "../components/CustomSignageForm";
-import Trend from "@/components/Trend";
+import Trend from "@/components/sections/Trend";
 
 const CustomSignage = () => {
   const [showForm, setShowForm] = useState(true);

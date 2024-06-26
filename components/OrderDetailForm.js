@@ -9,6 +9,7 @@ const cities = {
 const OrderDetailForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     name: "",
+    type: "website",
     addressLine1: "",
     addressLine2: "",
     city: "",
@@ -75,7 +76,7 @@ const OrderDetailForm = ({ onSubmit }) => {
   };
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 ">
       <form onSubmit={handleSubmit}>
         {[
           "name",

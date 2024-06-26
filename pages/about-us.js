@@ -18,7 +18,7 @@ function AboutUs() {
         <div className="mb-6">
           <img
             className="w-full h-auto"
-            src="/assets/about.png"
+            src="/assets/about2.png"
             alt="Company Logo"
           />
         </div>

@@ -1,5 +1,5 @@
 // pages/_app.js
-import { CartProvider } from "../pages/context/Cartcontext";
+import { CartProvider } from "../components/context/Cartcontext";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
@@ -9,5 +9,4 @@ function MyApp({ Component, pageProps }) {
     </CartProvider>
   );
 }
-
 export default MyApp;
