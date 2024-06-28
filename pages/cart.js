@@ -4,6 +4,25 @@ import Modal from "../components/Modal";
 import OrderDetailForm from "../components/OrderDetailForm";
 import OrderSummary from "../components/OrderSummary"; // Import OrderSummary component
 
+const placeholderImage = "https://via.placeholder.com/150";
+
+// Basic Skeleton Loader component
+const SkeletonLoader = () => (
+  <div className="p-4 bg-white shadow-md rounded-lg animate-pulse">
+    <div className="flex items-center space-x-4">
+      <div className="w-20 h-20 bg-gray-200 rounded-md"></div>
+      <div className="flex-1">
+        <div className="h-4 bg-gray-200 rounded mb-2"></div>
+        <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+      </div>
+    </div>
+    <div className="flex justify-between items-center mt-4">
+      <div className="h-8 bg-gray-200 rounded w-1/3"></div>
+      <div className="h-8 bg-gray-200 rounded w-20"></div>
+    </div>
+  </div>
+);
+
 const Cart = () => {
   const {
     cartItems,
@@ -53,7 +72,7 @@ const Cart = () => {
           id: id,
           title: "Unknown Product",
           price_per_unit: 0,
-          imageBase64: "", // Provide default values if product is not found
+          imageBase64: [], // Provide default values if product is not found
           description: "",
         };
       }
@@ -101,7 +120,7 @@ const Cart = () => {
             id: item.id,
             name: "Unknown Product",
             price: 0,
-            imageSrc: "", // Provide default values if product is not found
+            imageSrc: placeholderImage, // Placeholder image if product is not found
           },
           quantity: item.quantity,
         };
@@ -187,12 +206,21 @@ const Cart = () => {
       <h1 className="text-2xl font-bold mb-8">Cart</h1>
       <div className="flex flex-col space-y-4">
         {loadingProducts ? (
-          <div>Loading products...</div>
+          <>
+            <SkeletonLoader />
+            <SkeletonLoader />
+            <SkeletonLoader />
+          </>
         ) : errorProducts ? (
           <div>Error: {errorProducts}</div>
         ) : cartItems.length > 0 ? (
           cartItems.map((item) => {
             const product = productsData.find((p) => p.id === item.id);
+            const imageUrl =
+              product && product.imageBase64.length > 0
+                ? `data:image/jpeg;base64,${product.imageBase64[0]}` // First image from array
+                : placeholderImage; // Placeholder image if no images exist
+
             if (!product) {
               return (
                 <div
@@ -214,7 +242,7 @@ const Cart = () => {
               >
                 <div className="flex items-center space-x-4">
                   <img
-                    src={`data:image/jpeg;base64,${product.imageBase64}`}
+                    src={imageUrl}
                     alt={product.title}
                     className="w-20 h-20 object-cover rounded-md"
                   />

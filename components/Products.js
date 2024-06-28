@@ -5,32 +5,34 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
-const Products = () => {
+const SkeletonLoader = () => (
+  <div className="shadow rounded-md p-4 max-w-sm w-full mx-auto">
+    <div className="animate-pulse">
+      <div className="aspect-w-1 aspect-h-1 sm:aspect-h-8 sm:aspect-w-7">
+        <div className="w-full h-64 bg-slate-100"></div>
+      </div>
+      <div className="mt-4">
+        <div className="h-4 bg-slate-100 rounded w-3/4"></div>
+        <div className="h-4 bg-slate-100 rounded w-1/4 mt-2"></div>
+      </div>
+      <div className="mt-2">
+        <div className="h-8 bg-slate-100 rounded w-full"></div>
+      </div>
+    </div>
+  </div>
+);
+
+const Products = ({ products = [] }) => {
   const { cartItems, addToCart } = useCart();
   const router = useRouter();
   const [showAllProducts, setShowAllProducts] = useState(false);
-  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("https://signyards.in/getProducts.php");
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
-        const data = await response.json();
-        setProducts(data);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
 
-    fetchProducts();
-  }, []); // empty dependency array means this effect runs once on mount
-  console.log(products);
+  useEffect(() => {
+    if (products.length > 0) {
+      setLoading(false);
+    }
+  }, [products]);
 
   const handleButtonClick = (product) => {
     const isInCart = cartItems.find((item) => item.id === product.id);
@@ -42,31 +44,41 @@ const Products = () => {
     }
   };
 
-  const handleProductRedirect = (productId) => {
-    router.push(`/products/${productId}`);
+  const handleProductRedirect = (product) => {
+    router.push({
+      pathname: `/products/${product.id}`,
+      query: { data: JSON.stringify(product) },
+    });
   };
 
   const handleProductScreen = () => {
     router.push("/productScreen");
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   // Filter only products with type "Product"
   const filteredProducts = products.filter(
     (product) => product.type === "Product"
   );
 
-  // Displayed products based on the state, limited to 8 products
+  // Displayed products based on the state, limited to 4 products
   const displayedProducts = showAllProducts
     ? filteredProducts
-    : filteredProducts.slice(0, 8);
+    : filteredProducts.slice(0, 4);
+
+  if (loading) {
+    return (
+      <div
+        id="products"
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8"
+      >
+        {Array(4)
+          .fill(0)
+          .map((_, index) => (
+            <SkeletonLoader key={index} />
+          ))}
+      </div>
+    );
+  }
 
   return (
     <div id="products">
@@ -86,6 +98,7 @@ const Products = () => {
                         <img
                           src={`data:image/jpeg;base64,${product.imageBase64}`}
                           alt={product.title}
+                          loading="lazy"
                           className="object-cover object-center w-full h-full group-hover:opacity-75 cursor-pointer"
                         />
                       </div>
@@ -115,7 +128,7 @@ const Products = () => {
               </div>
             ))}
           </div>
-          {!showAllProducts && filteredProducts.length > 8 && (
+          {!showAllProducts && filteredProducts.length > 3 && (
             <div className="absolute bottom-4 right-4">
               <button
                 onClick={handleProductScreen}
